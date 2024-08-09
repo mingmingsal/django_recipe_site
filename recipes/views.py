@@ -1,26 +1,33 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
-
+from .forms import NameForm
 from .models import Recipe
+from django.views import generic
+
+class IndexView(generic.ListView):
+    template_name = "recipes/index.html"
+    context_object_name = "recipe_list"
+
+    def get_queryset(self):
+        """Return the last five published questions."""
+        return Recipe.objects.order_by("-pub_date")[:5]
 
 
-def index(request):
-    recipe_list = Recipe.objects.order_by("-pub_date")[:5]
-    output = ", ".join([q.recipe_name for q in recipe_list])
-    return HttpResponse(output)
 
+class DetailView(generic.DetailView):
+    model = Recipe
+    template_name = "recipes/details.html"
 
-# Leave the rest of the views (detail, results, vote) unchanged
+def get_name(request):
+    if request.method == "POST":
+        form = NameForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
 
-def detail(request, question_id):
-    return HttpResponse("You're looking at question %s." % question_id)
+            return HttpResponseRedirect("/thanks/")
 
+    else:
+        form = NameForm()
 
-def results(request, question_id):
-    response = "You're looking at the results of question %s."
-    return HttpResponse(response % question_id)
-
-
-def vote(request, question_id):
-    return HttpResponse("You're voting on question %s." % question_id)
+    return render(request, "name.html", {"form": form})

@@ -1,12 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-	
+    <h1>{{ recipe.recipe_name }}</h1>
+    {% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+    {% endif %} 
+    <h2>{{recipe.recipe_description}}</h2>
+    <table>
+      <tr>
+        <th>Ingredient</th>
+        <th>Amount</th>
+        <th>Unit</th>
+      </tr>
+    {% for ingredient in recipe.ingredient_set.all %}
+    <tr>
+      <td>{{ ingredient.ingredient_name }} </td>
+      <td>{{ingredient.amount}}</td>
+      <td>{{ingredient.measure_unit}}</td>
+    </tr>
+    {% endfor %}
+    </table>
   </body>
 </html>
