@@ -4,14 +4,13 @@ Other users should be able to leave comments on the specified recipe.
 
 Finished:
 1. Models for Recipes, Ingredients, and Steps
-2. Views for All Recipes, and Individual Recipe details by ID
-3. Routes to Index View and Recipe Detail Views
+2. Views for All Recipes, and Individual Recipe details by ID 
+3. Routes to Index View and Recipe Detail Views 
 4. Admin Dashboard allows updating of Recipes
-5. (Partial) Tests for Model Methods
+5. Tests for Views
    
 In-Progress:
-1. Writing Tests for Views
-2. Submission by HTML Form
+1. Submission by HTML Form
 
 To-Do:
 1. Form Validation
