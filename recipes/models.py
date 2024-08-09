@@ -39,3 +39,4 @@ class Ingredient(models.Model):
         if self.ingredient_name in meat_strings:
             return True
         return False
+
