@@ -10,8 +10,7 @@ Finished:
 5. Tests for Views
    
 In-Progress:
-1. Writing Tests for Views
-2. Submission by HTML Form
+1. Submission by HTML Form
 
 To-Do:
 1. Form Validation
