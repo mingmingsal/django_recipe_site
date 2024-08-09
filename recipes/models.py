@@ -36,7 +36,7 @@ class Ingredient(models.Model):
     def is_meat(self): 
         meat_strings = ['pork','beef','sausage','chicken'] 
         #test meats (could probably make it so that ingredients can have other ingredients, going down to base animals, then test for all)
-        if self.ingredient_name in meat_strings:
+        if self.ingredient_name.lower() in meat_strings:
             return True
         return False
 

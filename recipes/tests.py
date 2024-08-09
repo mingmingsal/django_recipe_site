@@ -14,7 +14,8 @@ def create_recipe(recipe_name, daysOffset, steps, ):
 
 def create_step(step, recipe_name):
     return Step.objects.create(step_description=step, recipe=recipe_name)
-
+def create_ingredient(ingredient, amount, measure_unit, recipe_name):
+    return Step.objects.create(ingredient_name=ingredient, amount = amount, measure_unit = measure_unit, recipe=recipe_name)
 #Model Tests
 class RecipeModelTests(TestCase):
     def test_make_blank_recipe(self):
@@ -26,6 +27,11 @@ class RecipeModelTests(TestCase):
         new_recipe = Recipe(recipe_name="hotdog",pub_date=time)
         new_step = Step(step_description="Steam bun",recipe=new_recipe)
         self.assertIs(new_step.recipe==new_recipe, True)
+    def test_is_ingredient_meat(self):
+        time = timezone.now()
+        new_recipe = Recipe(recipe_name="hotdog",pub_date=time)
+        new_ingredient = Ingredient(ingredient_name="Beef", measure_unit="g",amount=400,recipe=new_recipe)
+        self.assertIs(new_ingredient.is_meat(), True)
 
 # View Tests
 """
