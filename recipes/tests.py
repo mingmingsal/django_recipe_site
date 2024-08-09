@@ -7,7 +7,7 @@ from django.urls import reverse
 from .models import Recipe,Ingredient,Step
 
 #Helpers
-def create_recipe(recipe_name, daysOffset, steps, ):
+def create_recipe(recipe_name, daysOffset ):
 
     time = timezone.now() + datetime.timedelta(days=daysOffset)
     return Recipe.objects.create(recipe_name=recipe_name, pub_date=time)
@@ -34,20 +34,26 @@ class RecipeModelTests(TestCase):
         self.assertIs(new_ingredient.is_meat(), True)
 
 # View Tests
-"""
+
 class IndexViewTests(TestCase):
     def test_step_add(self):
         response = self.client.get(reverse("recipes:index"))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "No recipes are available.")
-        self.assertQuerySetEqual(response.context["recipe)_list"], [])
+        self.assertQuerySetEqual(response.context["recipe_list"], [])
 
 class DetailsViewTests(TestCase):
-    def test_step_add(self):
-        recipe = create_recipe(question_text="Ice Cream Sundae.", days=0)
-        step = create_step("Scoop Ice Cream",recipe)
+    #Create a view and have detailview exist
+    def test_view_exists(self):
+        recipe = create_recipe(recipe_name="Ice Cream Sundae.", daysOffset=0)
         url = reverse("recipes:detail", args=(recipe.id,))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-
-"""
+    #Create a view with an ingredient and check if it exists
+    def test_ingredient_exists(self):
+        recipe = create_recipe(recipe_name="Ice Cream Sundae.", daysOffset=0)
+        new_ingredient = Ingredient(ingredient_name="Beef", measure_unit="g",amount=400,recipe=recipe)
+        new_ingredient.save()
+        url = reverse("recipes:detail", args=(recipe.id,))
+        response = self.client.get(url)
+        self.assertContains(response, new_ingredient.ingredient_name)
