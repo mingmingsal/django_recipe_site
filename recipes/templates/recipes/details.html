@@ -26,5 +26,10 @@
     </tr>
     {% endfor %}
     </table>
+    <ol>
+      {% for step in recipe.step_set.all %}
+      <li>{{step.step_description}}</li>
+      {% endfor %}
+    </ol>
   </body>
 </html>
