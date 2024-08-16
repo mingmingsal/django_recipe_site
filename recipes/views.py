@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 
-from .forms import NameForm
 from .models import Recipe
 from django.views import generic
 
@@ -18,16 +17,3 @@ class IndexView(generic.ListView):
 class DetailView(generic.DetailView):
     model = Recipe
     template_name = "recipes/details.html"
-
-def get_name(request):
-    if request.method == "POST":
-        form = NameForm(request.POST)
-        # check whether it's valid:
-        if form.is_valid():
-
-            return HttpResponseRedirect("/thanks/")
-
-    else:
-        form = NameForm()
-
-    return render(request, "name.html", {"form": form})

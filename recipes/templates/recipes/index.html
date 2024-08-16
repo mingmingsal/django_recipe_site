@@ -1,22 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    {% if recipe_list %}
-    <ul>
-      {% for recipe in recipe_list %}
-      <li>
-        <a href="{% url 'recipes:detail' recipe.id %}">{{ recipe.recipe_name }}</a>
-      </li>
-      {% endfor %}
-    </ul>
-    {% else %}
-    <p>No recipes are available.</p>
-    {% endif %}
-  </body>
-</html>
+{% extends "recipes/base.html" %}
+{% block content %}
+    {%for recipe in recipe_list%}
+    <article class="media content-section">
+        <div class="media-body">
+          <div class="article-metadata">
+            <a class="mr-2" href="#">{{ recipe.author }}</a>
+            <small class="text-muted">{{ recipe.pub_date|date:"M. d, Y" }}</small>
+          </div>
+          <h2><a class="article-title" href="#">{{ recipe.recipe_name }}</a></h2>
+          <p class="article-content">{{ recipe.recipe_description }}</p>
+        </div>
+      </article>
+    {%endfor%}
+
+    {% endblock content %}
