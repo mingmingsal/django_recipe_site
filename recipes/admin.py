@@ -2,6 +2,7 @@
 from django.contrib import admin
 
 from .models import Recipe, Step, Ingredient
+from users.models import Profile
 
 class IngredientInLine(admin.TabularInline):
     model = Ingredient
@@ -19,3 +20,4 @@ class RecipeAdmin(admin.ModelAdmin):
     inlines = [IngredientInLine, StepInLine]
 admin.site.register(Recipe, RecipeAdmin)
 admin.site.register(Ingredient)
+admin.site.register(Profile)

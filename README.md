@@ -8,11 +8,15 @@ Finished:
 3. Routes to Index View and Recipe Detail Views 
 4. Admin Dashboard allows updating of Recipes
 5. Tests for Views
-   
+6. Form Validation
+7. Bootstrap Styling
+
+Additional Features:
+1. Vegan Check via Query Search of Non-Meat Ingredients
 In-Progress:
 1. Submission by HTML Form
 
 To-Do:
-1. Form Validation
+1. 
 2. User Authentication
 3. Vanila CSS Styling

@@ -7,7 +7,7 @@ from django.urls import reverse
 from .models import Recipe,Ingredient,Step
 
 #Helpers
-def create_recipe(recipe_name, daysOffset ):
+def create_recipe(recipe_name, daysOffset=0 ):  
 
     time = timezone.now() + datetime.timedelta(days=daysOffset)
     return Recipe.objects.create(recipe_name=recipe_name, pub_date=time)
@@ -62,6 +62,15 @@ class RecipeModelTests(TestCase):
         new_ingredient = Ingredient(ingredient_name="Carrots", measure_unit="g",amount=400,recipe=new_recipe)
         new_ingredient.save()
         self.assertIs(new_recipe.isVegan(), True)
+    def test_is_recipe_vegan_withVeg_and_Meat(self):
+        time = timezone.now()
+        new_recipe = Recipe(recipe_name="salad",pub_date=time)
+        new_recipe.save()
+        new_ingredient = Ingredient(ingredient_name="Carrots", measure_unit="g",amount=400,recipe=new_recipe)
+        new_ingredient.save()
+        new_ingredient2 = Ingredient(ingredient_name="Beef", measure_unit="g",amount=400,recipe=new_recipe)
+        new_ingredient2.save()
+        self.assertIs(new_recipe.isVegan(), False)
 # View Tests
 
 class IndexViewTests(TestCase):
@@ -78,8 +87,28 @@ class DetailsViewTests(TestCase):
         url = reverse("detail", args=(recipe.id,))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
+
+    def test_view_vegan_has_carrot(self):
+        time = timezone.now()
+        new_recipe = Recipe(recipe_name="salad",pub_date=time)
+        new_recipe.save()
+        new_ingredient = Ingredient(ingredient_name="Carrots", measure_unit="g",amount=400,recipe=new_recipe)
+        new_ingredient.save()
+        url = reverse("detail", args=(new_recipe.id,))
+        response = self.client.get(url)
+        self.assertContains(response, "🥕")
+    def test_view_vegan_no_meat(self):
+        time = timezone.now()
+        new_recipe = Recipe(recipe_name="salad",pub_date=time)
+        new_recipe.save()
+        new_ingredient = Ingredient(ingredient_name="Carrots", measure_unit="g",amount=400,recipe=new_recipe)
+        new_ingredient.save()
+        url = reverse("detail", args=(new_recipe.id,))
+        response = self.client.get(url)
+        self.assertNotContains(response, "🥩")
     #Create a view with an ingredient and check if it exists
     def test_ingredient_exists(self):
+
         recipe = create_recipe(recipe_name="Ice Cream Sundae.", daysOffset=0)
         new_ingredient = Ingredient(ingredient_name="Beef", measure_unit="g",amount=400,recipe=recipe)
         new_ingredient.save()

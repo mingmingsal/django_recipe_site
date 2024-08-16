@@ -25,7 +25,7 @@ class Recipe(models.Model):
         for ingredient in self.ingredient_set.all():
             if ingredient.is_meat():
                 return False
-            return True
+        return True
 class Step(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     step_description = models.CharField(max_length=1024)
@@ -39,7 +39,7 @@ class Ingredient(models.Model):
     def __str__(self):
         return self.ingredient_name
     def is_meat(self): 
-        meat_strings = ['pork','beef','sausage','chicken'] 
+        meat_strings = ['pork','beef','sausage','chicken','hotdog','sausage','fish'] 
         #test if ingredient has a meat name in it
         if self.ingredient_name.lower() in meat_strings:
             return True

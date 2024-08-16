@@ -2,12 +2,16 @@
 {% block content %}
     
 
-<h1>{{ recipe.recipe_name }}</h1>
+<h1>{{ recipe.recipe_name }}
+  {% if recipe.isVegan %}
+  🥕
+  {%else%}
+  🥩
+    {% endif %} 
+  
+</h1>
     {% if error_message %}
     <p><strong>{{ error_message }}</strong></p>
-    {% endif %} 
-    {% if recipe.image %}
-    <img src={{recipe.image.url}} />
     {% endif %} 
     
     <h2>{{recipe.recipe_description}}</h2>
@@ -22,11 +26,7 @@
       </tr>
     {% for ingredient in recipe.ingredient_set.all %}
     <tr>
-      {% if ingredient.is_meat %}
-    <p>Meat</p>
-    {%else%}
-    <p>Not Meat</p>
-    {% endif %} 
+
       <td>{{ ingredient.ingredient_name }} </td>
       <td>{{ingredient.amount}}</td>
       <td>{{ingredient.measure_unit}}</td>
