@@ -1,5 +1,6 @@
 {% extends "recipes/base.html" %}
 {% block content %}
+{%if recipe_list%}
     {%for recipe in recipe_list%}
     <article class="media content-section">
         <div class="media-body">
@@ -12,5 +13,7 @@
         </div>
       </article>
     {%endfor%}
-
+    {% else %}
+    <p>No recipes are available.</p>
+{% endif %}
     {% endblock content %}

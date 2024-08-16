@@ -11,6 +11,9 @@
     {% endif %} 
     
     <h2>{{recipe.recipe_description}}</h2>
+    {% if recipe.image %}
+    <img src={{recipe.image.url}} />
+    {% endif %} 
     <table>
       <tr>
         <th>Ingredient</th>
@@ -19,6 +22,11 @@
       </tr>
     {% for ingredient in recipe.ingredient_set.all %}
     <tr>
+      {% if ingredient.is_meat %}
+    <p>Meat</p>
+    {%else%}
+    <p>Not Meat</p>
+    {% endif %} 
       <td>{{ ingredient.ingredient_name }} </td>
       <td>{{ingredient.amount}}</td>
       <td>{{ingredient.measure_unit}}</td>

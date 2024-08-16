@@ -21,7 +21,11 @@ class Recipe(models.Model):
     image = models.ImageField(blank=True,upload_to='post_pics')
     def __str__(self):
         return self.recipe_name
-    
+    def isVegan(self):
+        for ingredient in self.ingredient_set.all():
+            if ingredient.is_meat():
+                return False
+            return True
 class Step(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     step_description = models.CharField(max_length=1024)
@@ -36,8 +40,9 @@ class Ingredient(models.Model):
         return self.ingredient_name
     def is_meat(self): 
         meat_strings = ['pork','beef','sausage','chicken'] 
-        #test meats (could probably make it so that ingredients can have other ingredients, going down to base animals, then test for all)
+        #test if ingredient has a meat name in it
         if self.ingredient_name.lower() in meat_strings:
             return True
-        return False
+        else:
+            return False
 

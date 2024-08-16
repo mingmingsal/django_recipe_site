@@ -27,17 +27,46 @@ class RecipeModelTests(TestCase):
         new_recipe = Recipe(recipe_name="hotdog",pub_date=time)
         new_step = Step(step_description="Steam bun",recipe=new_recipe)
         self.assertIs(new_step.recipe==new_recipe, True)
-    def test_is_ingredient_meat(self):
+    def test_is_ingredient_meat_beef(self):
         time = timezone.now()
         new_recipe = Recipe(recipe_name="hotdog",pub_date=time)
         new_ingredient = Ingredient(ingredient_name="Beef", measure_unit="g",amount=400,recipe=new_recipe)
         self.assertIs(new_ingredient.is_meat(), True)
+    def test_is_ingredient_meat_orange(self):
+        time = timezone.now()
+        new_recipe = Recipe(recipe_name="hotdog",pub_date=time)
+        new_ingredient = Ingredient(ingredient_name="Orange", measure_unit="g",amount=400,recipe=new_recipe)
+        self.assertIs(new_ingredient.is_meat(), False)
 
+    def test_is_recipe_vegan_withMeat(self):
+        time = timezone.now()
+        new_recipe = Recipe(recipe_name="hotdog",pub_date=time)
+        new_recipe.save()
+        new_ingredient = Ingredient(ingredient_name="Beef", measure_unit="g",amount=400,recipe=new_recipe)
+        
+        new_ingredient.save()
+        self.assertIs(new_recipe.isVegan(), False)
+
+    def test_is_recipe_vegan_withVeg(self):
+        time = timezone.now()
+        new_recipe = Recipe(recipe_name="salad",pub_date=time)
+        new_recipe.save()
+        new_ingredient = Ingredient(ingredient_name="Carrots", measure_unit="g",amount=400,recipe=new_recipe)
+        new_ingredient.save()
+        self.assertIs(new_recipe.isVegan(), True)
+
+    def test_is_recipe_vegan_withNothing(self):
+        time = timezone.now()
+        new_recipe = Recipe(recipe_name="salad",pub_date=time)
+        new_recipe.save()
+        new_ingredient = Ingredient(ingredient_name="Carrots", measure_unit="g",amount=400,recipe=new_recipe)
+        new_ingredient.save()
+        self.assertIs(new_recipe.isVegan(), True)
 # View Tests
 
 class IndexViewTests(TestCase):
     def test_step_add(self):
-        response = self.client.get(reverse("recipes:index"))
+        response = self.client.get(reverse("recipe-index"))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "No recipes are available.")
         self.assertQuerySetEqual(response.context["recipe_list"], [])
@@ -46,7 +75,7 @@ class DetailsViewTests(TestCase):
     #Create a view and have detailview exist
     def test_view_exists(self):
         recipe = create_recipe(recipe_name="Ice Cream Sundae.", daysOffset=0)
-        url = reverse("recipes:detail", args=(recipe.id,))
+        url = reverse("detail", args=(recipe.id,))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
     #Create a view with an ingredient and check if it exists
@@ -54,6 +83,6 @@ class DetailsViewTests(TestCase):
         recipe = create_recipe(recipe_name="Ice Cream Sundae.", daysOffset=0)
         new_ingredient = Ingredient(ingredient_name="Beef", measure_unit="g",amount=400,recipe=recipe)
         new_ingredient.save()
-        url = reverse("recipes:detail", args=(recipe.id,))
+        url = reverse("detail", args=(recipe.id,))
         response = self.client.get(url)
         self.assertContains(response, new_ingredient.ingredient_name)
