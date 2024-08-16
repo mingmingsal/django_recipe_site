@@ -4,10 +4,10 @@
     <article class="media content-section">
         <div class="media-body">
           <div class="article-metadata">
-            <a class="mr-2" href="#">{{ recipe.author }}</a>
+            <a class="mr-2" href="/recipes/{{recipe.id}}">{{ recipe.author }}</a>
             <small class="text-muted">{{ recipe.pub_date|date:"M. d, Y" }}</small>
           </div>
-          <h2><a class="article-title" href="#">{{ recipe.recipe_name }}</a></h2>
+          <h2><a class="article-title" href="/recipes/{{recipe.id}}">{{ recipe.recipe_name }}</a></h2>
           <p class="article-content">{{ recipe.recipe_description }}</p>
         </div>
       </article>

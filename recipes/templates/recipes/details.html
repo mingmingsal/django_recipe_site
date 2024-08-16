@@ -6,6 +6,10 @@
     {% if error_message %}
     <p><strong>{{ error_message }}</strong></p>
     {% endif %} 
+    {% if recipe.image %}
+    <img src={{recipe.image.url}} />
+    {% endif %} 
+    
     <h2>{{recipe.recipe_description}}</h2>
     <table>
       <tr>

@@ -16,8 +16,9 @@ MEASURE_UNIT_CHOICES={
 #One-to-Many relationship
 class Recipe(models.Model):
     recipe_name = models.CharField(max_length=200)
-    recipe_description = models.CharField(max_length=1024)
+    recipe_description = models.CharField(max_length=128)
     pub_date = models.DateTimeField("date published")
+    image = models.ImageField(blank=True,upload_to='post_pics')
     def __str__(self):
         return self.recipe_name
     
