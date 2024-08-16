@@ -1,5 +1,6 @@
 from django.db import models
-
+from django.contrib.auth.models import User
+from django.utils import timezone
 # Create your models here.
 MEASURE_UNIT_CHOICES={
         "mg":"milligram",
@@ -17,8 +18,9 @@ MEASURE_UNIT_CHOICES={
 class Recipe(models.Model):
     recipe_name = models.CharField(max_length=200)
     recipe_description = models.CharField(max_length=128)
-    pub_date = models.DateTimeField("date published")
+    pub_date = models.DateTimeField(default=timezone.now)
     image = models.ImageField(blank=True,upload_to='post_pics')
+    author = models.ForeignKey(User,on_delete=models.CASCADE, default=1,)
     def __str__(self):
         return self.recipe_name
     def isVegan(self):
@@ -41,8 +43,14 @@ class Ingredient(models.Model):
     def is_meat(self): 
         meat_strings = ['pork','beef','sausage','chicken','hotdog','sausage','fish'] 
         #test if ingredient has a meat name in it
+        found = False
+        for meat in meat_strings:
+            if meat in self.ingredient_name.lower() :
+                found = True
+        return found
+        """
         if self.ingredient_name.lower() in meat_strings:
             return True
         else:
             return False
-
+        """

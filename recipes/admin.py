@@ -13,6 +13,7 @@ class StepInLine(admin.StackedInline):
 class RecipeAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,{"fields":["recipe_name"]}),
+        ("Food Image", {"fields":["author"]}),
         ("Food Image", {"fields":["image"]}),
         ("Date Information", {"fields":["pub_date"]}),
         ("Recipe Description", {"fields":["recipe_description"]})

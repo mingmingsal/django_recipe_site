@@ -3,6 +3,7 @@
 {%if recipe_list%}
     {%for recipe in recipe_list%}
     <article class="media content-section">
+      <img class="rounded-circle article-img" src={{recipe.author.profile.image.url}} />
         <div class="media-body">
           <div class="article-metadata">
             <a class="mr-2" href="/recipes/{{recipe.id}}">{{ recipe.author }}</a>

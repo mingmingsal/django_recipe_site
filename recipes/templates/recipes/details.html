@@ -14,20 +14,22 @@
     <p><strong>{{ error_message }}</strong></p>
     {% endif %} 
     
-    <h2>{{recipe.recipe_description}}</h2>
+    <h2 class="blockquote text-center">{{recipe.recipe_description}}</h2>
     {% if recipe.image %}
-    <img src={{recipe.image.url}} />
+    <img src={{recipe.image.url}} class="rounded mx-auto d-block"/>
     {% endif %} 
-    <table>
+    <table  class="table">
+      <thead>
       <tr>
-        <th>Ingredient</th>
-        <th>Amount</th>
-        <th>Unit</th>
+        <th scope="col">Ingredient</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Unit</th>
       </tr>
+    </thead>
     {% for ingredient in recipe.ingredient_set.all %}
     <tr>
 
-      <td>{{ ingredient.ingredient_name }} </td>
+      <th scope="row">{{ ingredient.ingredient_name }} </th>
       <td>{{ingredient.amount}}</td>
       <td>{{ingredient.measure_unit}}</td>
     </tr>
